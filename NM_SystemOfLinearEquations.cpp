@@ -8,8 +8,8 @@
 using namespace std;
 
 //7 вариант - N = 700, l = 16
-const int N = 10;
-const int l = 5;
+const int N = 700;
+const int l = 16;
 const double eps = 0.000001;
 
 using namespace std;
@@ -265,9 +265,9 @@ int main(void)
 	vector<vector<double>> Lenta3(N, vector<double>(4 * l + 1, 0));
 
 	//заполняем ленточные матрицы, на этом у нас 1 задание сделано
-	Lenta1 = MatrixtoLenta(N, 2 * l + 1, M1, Lenta1);
-	Lenta2 = MatrixtoLenta(N, 2 * l + 1, M2, Lenta2);
-	Lenta3 = MatrixtoLenta(N, 2 * l + 1, M3, Lenta3);
+	Lenta1 = MatrixtoLenta(N, 2 * l , M1, Lenta1);
+	Lenta2 = MatrixtoLenta(N, 2 * l , M2, Lenta2);
+	Lenta3 = MatrixtoLenta(N, 2 * l , M3, Lenta3);
 	//printMatrix(Lenta1);
 	cout << "__________________" << endl;
 	cout << endl;
@@ -276,15 +276,15 @@ int main(void)
 	cout << "2. Jacobi method iterations and solutions: " << endl;
 	cout << " -------------------------- " << endl;
 	cout << "For q1 = " << q1 << " ";
-	x1 = JacobiMethod(N, 2 * l + 1, Lenta1, b1);
+	x1 = JacobiMethod(N, 2 * l , Lenta1, b1);
 	Norm(N, x1, sol);
 
 	cout << "For q2 = " << q2 << " ";
-	x2 = JacobiMethod(N, 2 * l + 1, Lenta2, b2);
+	x2 = JacobiMethod(N, 2 * l , Lenta2, b2);
 	Norm(N, x2, sol);
 
 	cout << "For q3 = " << q3 << " ";
-	x3 = JacobiMethod(N, 2 * l + 1, Lenta3, b3);
+	x3 = JacobiMethod(N, 2 * l , Lenta3, b3);
 	Norm(N, x3, sol);
 	cout << endl;
 
