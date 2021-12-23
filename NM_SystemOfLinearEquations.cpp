@@ -130,7 +130,7 @@ vector<vector<double>> MatrixtoLenta(int N, int l, vector<vector<double>> Matrix
 }
 
 //Метод Якоби!
-vector<double> JacobiLenta(int N, int lw, vector<vector<double>> A, vector<double> b)
+vector<double> JacobiMethod(int N, int lw, vector<vector<double>> A, vector<double> b)
 {
 	vector<double> xprev(N, 0);
 	vector<double> x(N, 0);
@@ -163,7 +163,7 @@ vector<double> JacobiLenta(int N, int lw, vector<vector<double>> A, vector<doubl
 }
 
 //Вычисление нормы
-void norma(int N, vector<double> solTrue, vector<double> solOur)
+void Norm(int N, vector<double> solTrue, vector<double> solOur)
 {
 	double max = fabs(solOur[0] - solTrue[0]);
 	for (int i = 0; i < N; i++)
@@ -276,16 +276,16 @@ int main(void)
 	cout << "2. Jacobi method iterations and solutions: " << endl;
 	cout << " -------------------------- " << endl;
 	cout << "For q1 = " << q1 << " ";
-	x1 = JacobiLenta(N, 2 * l + 1, Lenta1, b1);
-	norma(N, x1, sol);
+	x1 = JacobiMethod(N, 2 * l + 1, Lenta1, b1);
+	Norm(N, x1, sol);
 
 	cout << "For q2 = " << q2 << " ";
-	x2 = JacobiLenta(N, 2 * l + 1, Lenta2, b2);
-	norma(N, x2, sol);
+	x2 = JacobiMethod(N, 2 * l + 1, Lenta2, b2);
+	Norm(N, x2, sol);
 
 	cout << "For q3 = " << q3 << " ";
-	x3 = JacobiLenta(N, 2 * l + 1, Lenta3, b3);
-	norma(N, x3, sol);
+	x3 = JacobiMethod(N, 2 * l + 1, Lenta3, b3);
+	Norm(N, x3, sol);
 	cout << endl;
 
 	return 0;
