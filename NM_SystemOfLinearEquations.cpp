@@ -132,7 +132,7 @@ vector<vector<double>> MatrixtoLenta(int N, int l, vector<vector<double>> Matrix
 //Метод Якоби!
 vector<double> JacobiMethod(int N, int lw, vector<vector<double>> A, vector<double> b)
 {
-	vector<double> xprev(N, 0);
+	vector<double> xprev(N, 0); 
 	vector<double> x(N, 0);
 	double diff;
 	int iter = 0;
@@ -172,6 +172,47 @@ void Norm(int N, vector<double> solTrue, vector<double> solOur)
 			max = fabs(solOur[i] - solTrue[i]);
 	}
 	cout << "Norm = " << max << endl;
+}
+
+vector<double> SORLenta(int N, int l, vector<vector<double>> A, vector<double> b, double relaxation)
+{
+	vector<double> xprev(N, 0); // Начальнoe приближение
+	vector<double> x(N, 0); // Текущее приближение
+	double diff; // Разница между текущим и предыдущим приближением, итерации вплоть до разницы меньше eps
+	int iter = 0;
+
+	do
+	{
+		iter++;
+		for (int i = 0; i < N; i++)
+		{
+			x[i] = b[i];
+			for (int j = 0; j < i; j++)
+			{
+				int ind = j - i + l;
+				if ((j != i) && (ind >= 0) && (ind < 2 * l + 1))
+					x[i] -= A[i][ind] * x[j];
+			}
+			for (int j = i + 1; j < N; j++)
+			{
+				int ind = j - i + l;
+				if ((j != i) && (ind >= 0) && (ind < 2 * l + 1))
+					x[i] -= A[i][ind] * xprev[j];
+			}
+			x[i] /= A[i][l];
+			x[i] *= relaxation;
+			x[i] += (1 - relaxation) * xprev[i];
+		}
+		diff = fabs(x[0] - xprev[0]);
+		for (int i = 0; i < N; i++)
+		{
+			if (fabs(x[i] - xprev[i]) > diff)
+				diff = fabs(x[i] - xprev[i]);
+			xprev[i] = x[i];
+		}
+	} while (diff > eps);
+	cout << " Iterations: " << iter << endl;
+	return x;
 }
 
 
@@ -287,6 +328,46 @@ int main(void)
 	x3 = JacobiMethod(N, 2 * l , Lenta3, b3);
 	Norm(N, x3, sol);
 	cout << endl;
+
+	cout << "__________________" << endl;
+	cout << endl;
+
+
+	cout << "3. SOR method iterations and solutions: " << endl;
+	double w1 = 0.2; //наши значения w от 0 до 2
+	double w2 = 1;
+	double w3 = 1.9;
+
+	cout << " relax = " << w1 << endl;
+	cout << " For q1 = " << q1 << " "; x1 = SORLenta(N, 2 * l, Lenta1, b1, w1);
+	Norm(N, x1, sol);
+	cout << " For q2 = " << q2 << " "; x2 = SORLenta(N, 2 * l, Lenta2, b2, w1);
+	Norm(N, x2, sol);
+	cout << " For q3 = " << q3 << " "; x3 = SORLenta(N, 2 * l, Lenta3, b3, w1);
+	Norm(N, x3, sol);
+
+	cout << endl;
+	cout << " relax = " << w2 << endl;
+	cout << " For q1 = " << q1 << " "; x1 = SORLenta(N, 2 * l, Lenta1, b1, w2);
+	Norm(N, x1, sol);
+	cout << " For q2 = " << q2 << " "; x2 = SORLenta(N, 2 * l, Lenta2, b2, w2);
+	Norm(N, x2, sol);
+	cout << " For q3 = " << q3 << " "; x3 = SORLenta(N, 2 * l, Lenta3, b3, w2);
+	Norm(N, x3, sol);
+	cout << endl;
+
+	cout << " relax = " << w3 << endl;
+	cout << " For q1 = " << q1 << " "; x1 = SORLenta(N, 2 * l, Lenta1, b1, w3);
+	Norm(N, x1, sol);
+	cout << " For q2 = " << q2 << " "; x2 = SORLenta(N, 2 * l, Lenta2, b2, w3);
+	Norm(N, x2, sol);
+	cout << " For q3 = " << q3 << " "; x3 = SORLenta(N, 2 * l, Lenta3, b3, w3);
+	Norm(N, x3, sol);
+	/*printVector(x1);
+	printVector(x2);
+	printVector(x3);*/
+	cout << endl;
+
 
 	return 0;
 }
